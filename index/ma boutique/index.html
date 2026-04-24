@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyShop Pro</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<!-- HEADER -->
+<header class="flex justify-between items-center p-6 bg-white shadow">
+  <h1 class="text-xl font-bold">MyShop</h1>
+
+  <button onclick="toggleCart()" class="relative text-xl">
+    🛒
+    <span id="cartCount"
+      class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
+      0
+    </span>
+  </button>
+</header>
+
+<!-- PRODUITS -->
+<section class="p-6 grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+  <!-- PRODUIT -->
+  <div class="bg-white p-4 rounded-xl shadow hover:shadow-xl transition">
+    <img src="https://via.placeholder.com/300" class="rounded mb-4">
+    <h2 class="font-bold">Casque Audio</h2>
+    <p class="text-gray-600">50€</p>
+    <button onclick="addToCart('Casque Audio', 50)"
+      class="mt-2 bg-black text-white px-4 py-2 rounded w-full hover:scale-105 transition">
+      Ajouter au panier
+    </button>
+  </div>
+
+  <div class="bg-white p-4 rounded-xl shadow hover:shadow-xl transition">
+    <img src="https://via.placeholder.com/300" class="rounded mb-4">
+    <h2 class="font-bold">Smartphone</h2>
+    <p class="text-gray-600">300€</p>
+    <button onclick="addToCart('Smartphone', 300)"
+      class="mt-2 bg-black text-white px-4 py-2 rounded w-full">
+      Ajouter au panier
+    </button>
+  </div>
+
+  <div class="bg-white p-4 rounded-xl shadow hover:shadow-xl transition">
+    <img src="https://via.placeholder.com/300" class="rounded mb-4">
+    <h2 class="font-bold">Ordinateur</h2>
+    <p class="text-gray-600">800€</p>
+    <button onclick="addToCart('Ordinateur', 800)"
+      class="mt-2 bg-black text-white px-4 py-2 rounded w-full">
+      Ajouter au panier
+    </button>
+  </div>
+
+</section>
+
+<!-- PANIER -->
+<div id="cart"
+  class="fixed right-0 top-0 w-80 h-full bg-white shadow-lg p-6 transform translate-x-full transition duration-300 overflow-y-auto">
+
+  <h2 class="text-xl font-bold mb-4">Panier</h2>
+
+  <div id="cartItems" class="space-y-4"></div>
+
+  <p class="mt-4 font-bold text-lg">
+    Total : <span id="total">0</span>€
+  </p>
+
+  <button class="mt-4 bg-green-500 text-white w-full py-2 rounded hover:bg-green-600">
+    Commander
+  </button>
+</div>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || []
+
+function addToCart(name, price) {
+  let existing = cart.find(item => item.name === name)
+
+  if (existing) {
+    existing.qty++
+  } else {
+    cart.push({ name, price, qty: 1 })
+  }
+
+  saveCart()
+}
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart))
+  renderCart()
+}
+
+function renderCart() {
+  let container = document.getElementById("cartItems")
+  container.innerHTML = ""
+
+  let total = 0
+  let count = 0
+
+  cart.forEach((item, index) => {
+    total += item.price * item.qty
+    count += item.qty
+
+    container.innerHTML += `
+      <div class="border-b pb-2">
+        <div class="flex justify-between">
+          <span>${item.name}</span>
+          <button onclick="removeItem(${index})" class="text-red-500">x</button>
+        </div>
+
+        <div class="flex justify-between items-center mt-2">
+
+          <div class="flex items-center gap-2">
+            <button onclick="decreaseQty(${index})" class="px-2 bg-gray-200 rounded">-</button>
+            <span>${item.qty}</span>
+            <button onclick="increaseQty(${index})" class="px-2 bg-gray-200 rounded">+</button>
+          </div>
+
+          <span>${item.price * item.qty}€</span>
+
+        </div>
+      </div>
+    `
+  })
+
+  document.getElementById("total").innerText = total
+  document.getElementById("cartCount").innerText = count
+}
+
+function increaseQty(index) {
+  cart[index].qty++
+  saveCart()
+}
+
+function decreaseQty(index) {
+  if (cart[index].qty > 1) {
+    cart[index].qty--
+  } else {
+    cart.splice(index, 1)
+  }
+  saveCart()
+}
+
+function removeItem(index) {
+  cart.splice(index, 1)
+  saveCart()
+}
+
+function toggleCart() {
+  document.getElementById("cart").classList.toggle("translate-x-full")
+}
+
+renderCart()
+
+</script>
+
+</body>
+</html>

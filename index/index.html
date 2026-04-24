@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Patrick KUMANISA</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS (animations) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body class="bg-black text-white">
+
+  <!-- HEADER -->
+  <header class="flex justify-between items-center px-6 py-4">
+    <h1 class="font-bold text-lg">Pat. EXCEL</h1>
+
+    <nav class="space-x-6 hidden md:block">
+      <a href="#accueil" class="hover:text-yellow-500">Accueil</a>
+      <a href="#about" class="hover:text-yellow-500">À propos</a>
+      <a href="#projects" class="hover:text-yellow-500">Projets</a>
+      <a href="#contact" class="hover:text-yellow-500">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="accueil" class="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 gap-12">
+
+    <!-- IMAGE -->
+    <div class="relative group" data-aos="fade-right">
+      <img src="mon-image.jpeg"
+        class="w-64 h-64 object-cover rounded-full shadow-xl transform group-hover:scale-105 transition duration-500">
+
+      <div class="absolute inset-0 rounded-full bg-yellow-400 blur-2xl opacity-20 group-hover:opacity-40 transition"></div>
+    </div>
+
+    <!-- TEXTE -->
+    <div class="max-w-xl text-center md:text-left" data-aos="fade-left">
+
+      <h1 class="text-5xl font-extrabold mb-4 leading-tight">
+        Hello,<br>
+        Je suis <span class="text-yellow-300">Patrick KUMANISA</span>
+      </h1>
+
+      <p class="text-lg text-gray-300 mb-6">
+        Développeur web full stack — je crée des expériences numériques modernes,
+        rapides et performantes.
+      </p>
+
+      <div class="flex justify-center md:justify-start gap-4">
+        <a href="#projects"
+          class="px-6 py-3 border rounded-full text-white rounded-full hover:scale-105 transition">
+          Voir mes projets
+        </a>
+
+        <a href="#contact"
+          class="px-6 py-3 border rounded-full hover:bg-gray-200 transition">
+          Me contacter
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="py-20 px-6 max-w-4xl mx-auto" data-aos="fade-up">
+    <h2 class="text-3xl font-bold mb-6 text-center">À propos de moi </h2>
+
+    <p class="text-gray-300 text-lg leading-relaxed text-center">
+      Je suis Patrick KUMANISA, développeur web passionné par la création
+      d'applications modernes et utiles. Après une expérience en gestion
+      de projets avec Microsoft Project, suivi et évaluation avec Survey Monkey, une expertise en passation des marchés publics et bien d'autres compétences, j’ai choisi de me spécialiser dans le développement web
+      afin de transformer des idées en solutions concrètes et performantes.
+    </p>
+    <div class="flex gap-4 mt-4 text-sm">
+          <a href="a_propos/index_a_propos.html" class="text-blue-500 hover:underline">Voir mon parcours</a>
+        </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="py-20 px-6 bg-black">
+    <h2 class="text-3xl font-bold text-center mb-12" data-aos="fade-up">
+      Mes projets
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="bg-gray-800 text-white rounded-xl shadow hover:shadow-xl hover:-translate-y-2 transition p-4" data-aos="zoom-in">
+        <img src="mon saas/my_saas.png" class="rounded-lg mb-4">
+        <h3 class="font-bold text-lg">Application SaaS</h3>
+        <p class="text-gray-600 text-sm">
+          Plateforme moderne avec dashboard interactif.
+        </p>
+        <div class="flex gap-4 mt-4 text-sm">
+          <a href="mon saas/index.html" class="text-blue-500 hover:underline">Voir</a>
+        </div>
+      </div>
+
+      <div class="bg-gray-800 text-white rounded-xl shadow hover:shadow-xl hover:-translate-y-2 transition p-4" data-aos="zoom-in" data-aos-delay="100">
+        <img src="ma boutique/my_shop.png" class="rounded-lg mb-4">
+        <h3 class="font-bold text-lg">E-commerce</h3>
+        <p class="text-gray-600 text-sm">
+          Boutique en ligne responsive et rapide.
+        </p>
+        <div class="flex gap-4 mt-4 text-sm">
+          <a href="ma boutique/index.html" class="text-blue-500 hover:underline">Voir</a>
+        </div>
+      </div>
+
+      <div class="bg-gray-800 text-white rounded-xl shadow hover:shadow-xl hover:-translate-y-2 transition p-4" data-aos="zoom-in" data-aos-delay="200">
+        <img src="portfolio_dpk_ovd/dpk_alain.jpg" class="rounded-lg mb-4">
+        <h3 class="font-bold text-lg">Portfolio</h3>
+        <p class="text-gray-600 text-sm">
+          Site personnel moderne et animé.
+        </p>
+        <div class="flex gap-4 mt-4 text-sm">
+          <a href="portfolio_dpk_ovd/index.html" class="text-blue-500 hover:underline">Voir</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-20 px-6" data-aos="fade-up">
+    <h2 class="text-3xl font-bold text-center mb-10">Contact</h2>
+
+    <!-- FORMULAIRE FORMSpree -->
+    <form action="https://formspree.io/f/mzdyvkzy" method="POST"
+      class="max-w-xl mx-auto flex flex-col gap-4">
+
+      <input type="text" name="name" placeholder="Nom" required
+        class="p-3 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-400">
+
+      <input type="email" name="email" placeholder="Email" required
+        class="p-3 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"> 
+
+      <input type="hidden" name="_next" value="https://tonsite.com/merci.html">
+
+      <textarea name="message" placeholder="Message" required
+        class="p-3 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"></textarea>
+
+      <!-- Option anti-spam -->
+      <input type="hidden" name="_captcha" value="false">
+
+      <button
+        class="bg-gray-400 text-red-800 p-3 rounded hover:bg-gray-400 transition">
+        Envoyer
+      </button>
+
+    </form>
+
+    <!-- SOCIALS -->
+    <div class="text-center mt-8">
+      <p class="text-gray-300">Suivez-moi</p>
+      <div class="flex justify-center gap-6 mt-4 text-xl">
+        <a href="https://www.linkedin.com/in/patrick-kumanisa-6b7b10137" class="hover:text-yellow-500">LinkedIn</a>
+        <a href="https://github.com/PatrickKUMANISA" class="hover:text-yellow-500">Github</a>
+      </div>
+    </div>
+   </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t py-6 px-6 text-center text-sm text-gray-500">
+    © 2026 Patrick KUMANISA — Tous droits réservés
+  </footer>
+
+  <!-- AOS INIT -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+  </script>
+
+</body>
+</html>

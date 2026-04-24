@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockPro</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-black text-white p-6 hidden md:block">
+    <h2 class="text-2xl font-bold mb-10">StockPro</h2>
+    <nav class="space-y-4">
+      <a class="text-yellow-400">Dashboard</a>
+      <a>Produits</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 p-6">
+
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row md:justify-between gap-4 mb-6">
+
+      <h1 class="text-2xl font-bold">Gestion de stock</h1>
+
+      <div class="flex gap-2 flex-wrap">
+
+        <!-- SEARCH -->
+        <input id="search" placeholder="Rechercher..."
+          class="border p-2 rounded w-48">
+
+        <!-- FILTER -->
+        <select id="filter" class="border p-2 rounded">
+          <option value="all">Tous</option>
+          <option value="low">Stock faible</option>
+          <option value="out">Rupture</option>
+        </select>
+
+        <button onclick="openModal()" class="bg-black text-white px-4 py-2 rounded">
+          + Ajouter
+        </button>
+
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+
+      <div class="bg-white p-6 rounded shadow">
+        <h3>Total</h3>
+        <p id="total" class="text-3xl font-bold">0</p>
+      </div>
+
+      <div class="bg-white p-6 rounded shadow">
+        <h3>Faible</h3>
+        <p id="low" class="text-3xl font-bold text-yellow-500">0</p>
+      </div>
+
+      <div class="bg-white p-6 rounded shadow">
+        <h3>Rupture</h3>
+        <p id="out" class="text-3xl font-bold text-red-500">0</p>
+      </div>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="bg-white p-6 rounded shadow overflow-x-auto">
+      <table class="w-full text-center">
+
+        <thead>
+          <tr class="border-b">
+            <th>Nom</th>
+            <th>Catégorie</th>
+            <th>Entrées</th>
+            <th>Sorties</th>
+            <th>Stock</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody id="tableBody"></tbody>
+
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center">
+  <div class="bg-white p-6 rounded w-80">
+    <h2 class="font-bold mb-4">Ajouter produit</h2>
+
+    <input id="name" placeholder="Nom" class="w-full border p-2 mb-2">
+    <input id="category" placeholder="Catégorie" class="w-full border p-2 mb-2">
+    <input id="stock" type="number" placeholder="Stock initial" class="w-full border p-2 mb-4">
+
+    <div class="flex justify-between">
+      <button onclick="closeModal()">Annuler</button>
+      <button onclick="saveProduct()" class="bg-black text-white px-4 py-2 rounded">
+        Ajouter
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-5 right-5 bg-black text-white px-4 py-2 rounded hidden"></div>
+
+<script>
+
+let products = JSON.parse(localStorage.getItem("products")) || []
+
+function showToast(msg) {
+  let toast = document.getElementById("toast")
+  toast.innerText = msg
+  toast.classList.remove("hidden")
+  setTimeout(() => toast.classList.add("hidden"), 2000)
+}
+
+function getStatus(stock) {
+  if (stock == 0) return { text: "Rupture", color: "text-red-500" }
+  if (stock < 10) return { text: "Faible", color: "text-yellow-500" }
+  return { text: "En stock", color: "text-green-500" }
+}
+
+function render() {
+  let search = document.getElementById("search").value.toLowerCase()
+  let filter = document.getElementById("filter").value
+
+  let table = document.getElementById("tableBody")
+  table.innerHTML = ""
+
+  let total = 0, low = 0, out = 0
+
+  products.forEach((p, index) => {
+
+    let status = getStatus(p.stock)
+
+    if (
+      (filter === "low" && p.stock >= 10) ||
+      (filter === "out" && p.stock !== 0)
+    ) return
+
+    if (!p.name.toLowerCase().includes(search)) return
+
+    total++
+    if (p.stock == 0) out++
+    else if (p.stock < 10) low++
+
+    table.innerHTML += `
+      <tr class="border-b hover:bg-gray-50">
+        <td>${p.name}</td>
+        <td>${p.category}</td>
+        <td class="text-green-500">+${p.entries || 0}</td>
+        <td class="text-red-500">-${p.exits || 0}</td>
+        <td class="font-bold">${p.stock}</td>
+        <td class="${status.color} font-bold">${status.text}</td>
+        <td class="space-x-2">
+          <button onclick="addEntry(${index})" class="text-green-600">+ Entrée</button>
+          <button onclick="addExit(${index})" class="text-orange-600">- Sortie</button>
+          <button onclick="deleteProduct(${index})" class="text-red-500">Supprimer</button>
+        </td>
+      </tr>
+    `
+  })
+
+  document.getElementById("total").innerText = total
+  document.getElementById("low").innerText = low
+  document.getElementById("out").innerText = out
+
+  localStorage.setItem("products", JSON.stringify(products))
+}
+
+function saveProduct() {
+  let name = document.getElementById("name").value
+  let category = document.getElementById("category").value
+  let stock = parseInt(document.getElementById("stock").value)
+
+  if (!name || !category || isNaN(stock)) {
+    showToast("Champs invalides")
+    return
+  }
+
+  products.push({
+    name,
+    category,
+    stock,
+    entries: 0,
+    exits: 0
+  })
+
+  showToast("Produit ajouté")
+  closeModal()
+  render()
+}
+
+function addEntry(index) {
+  let qty = parseInt(prompt("Quantité entrée :"))
+  if (isNaN(qty) || qty <= 0) return
+
+  products[index].entries += qty
+  products[index].stock += qty
+
+  showToast("Entrée ajoutée")
+  render()
+}
+
+function addExit(index) {
+  let qty = parseInt(prompt("Quantité sortie :"))
+  if (isNaN(qty) || qty <= 0) return
+
+  if (qty > products[index].stock) {
+    showToast("Stock insuffisant")
+    return
+  }
+
+  products[index].exits += qty
+  products[index].stock -= qty
+
+  showToast("Sortie enregistrée")
+  render()
+}
+
+function deleteProduct(index) {
+  products.splice(index, 1)
+  showToast("Produit supprimé")
+  render()
+}
+
+function openModal() {
+  document.getElementById("modal").classList.remove("hidden")
+  document.getElementById("modal").classList.add("flex")
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.add("hidden")
+
+  document.getElementById("name").value = ""
+  document.getElementById("category").value = ""
+  document.getElementById("stock").value = ""
+}
+
+document.getElementById("search").addEventListener("input", render)
+document.getElementById("filter").addEventListener("change", render)
+
+render()
+
+</script>
+
+</body>
+</html>
