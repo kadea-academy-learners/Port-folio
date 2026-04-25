@@ -30,7 +30,23 @@
   <button id="menu-btn" class="md:hidden text-2xl">
     ☰
   </button>
-</header>
+</header> 
+
+<div id="mobile-menu" class="hidden flex-col bg-black text-center py-6 space-y-4 md:hidden">
+  <a href="#accueil" class="block hover:text-yellow-500">Accueil</a>
+  <a href="#about" class="block hover:text-yellow-500">À propos</a>
+  <a href="#projects" class="block hover:text-yellow-500">Projets</a>
+  <a href="#contact" class="block hover:text-yellow-500">Contact</a>
+</div>
+
+<script>
+  const btn = document.getElementById("menu-btn");
+  const menu = document.getElementById("mobile-menu");
+
+  btn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
 
   <!-- HERO -->
   <section id="accueil" class="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 gap-12">
