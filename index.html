@@ -15,16 +15,22 @@
 <body class="bg-black text-white">
 
   <!-- HEADER -->
-  <header class="flex justify-between items-center px-6 py-4">
-    <h1 class="font-bold text-lg">Pat. EXCEL</h1>
+  <header class="flex justify-between items-center px-6 py-4 relative">
+  <h1 class="font-bold text-lg">Pat. EXCEL</h1>
 
-    <nav class="space-x-6 hidden md:block">
-      <a href="#accueil" class="hover:text-yellow-500">Accueil</a>
-      <a href="#about" class="hover:text-yellow-500">À propos</a>
-      <a href="#projects" class="hover:text-yellow-500">Projets</a>
-      <a href="#contact" class="hover:text-yellow-500">Contact</a>
-    </nav>
-  </header>
+  <!-- MENU DESKTOP -->
+  <nav class="space-x-6 hidden md:block">
+    <a href="#accueil" class="hover:text-yellow-500">Accueil</a>
+    <a href="#about" class="hover:text-yellow-500">À propos</a>
+    <a href="#projects" class="hover:text-yellow-500">Projets</a>
+    <a href="#contact" class="hover:text-yellow-500">Contact</a>
+  </nav>
+
+  <!-- BOUTON HAMBURGER -->
+  <button id="menu-btn" class="md:hidden text-2xl">
+    ☰
+  </button>
+</header>
 
   <!-- HERO -->
   <section id="accueil" class="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 gap-12">
@@ -46,8 +52,8 @@
       </h1>
 
       <p class="text-lg text-gray-300 mb-6">
-        Développeur web full stack — je crée des expériences numériques modernes,
-        rapides et performantes.
+        Gestionnaire de projets, Experts en passation des marchés publics et Développeur web full stack 
+        — je crée des expériences numériques modernes, rapides et performantes.
       </p>
 
       <div class="flex justify-center md:justify-start gap-4">
@@ -69,10 +75,12 @@
     <h2 class="text-3xl font-bold mb-6 text-center">À propos de moi </h2>
 
     <p class="text-gray-300 text-lg leading-relaxed text-center">
-      Je suis Patrick KUMANISA, développeur web passionné par la création
-      d'applications modernes et utiles. Après une expérience en gestion
-      de projets avec Microsoft Project, suivi et évaluation avec Survey Monkey, une expertise en passation des marchés publics et bien d'autres compétences, j’ai choisi de me spécialiser dans le développement web
-      afin de transformer des idées en solutions concrètes et performantes.
+      Après une expérience en gestion de projets, notamment avec Microsoft Project, ainsi qu’en suivi et 
+      évaluation à l’aide de SurveyMonkey et dans la passation des marchés publics, j’ai choisi de 
+      me spécialiser dans le développement web afin de transformer des idées en solutions concrètes et 
+      performantes.
+      Aujourd’hui, je suis un développeur web passionné par la création d’applications modernes, 
+      utiles et orientées vers les besoins des utilisateurs.
     </p>
     <div class="flex gap-4 mt-4 text-sm">
           <a href="a_propos/index_a_propos.html" class="text-blue-500 hover:underline">Voir mon parcours</a>
