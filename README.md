@@ -93,7 +93,7 @@ Le site est entièrement responsive :
 ## Auteur
 
 **Patrick KUMANISA**  
-Développeur Web Full Stack
+Développeur Web
 
 ---
 
